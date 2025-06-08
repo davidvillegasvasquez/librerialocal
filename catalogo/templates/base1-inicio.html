@@ -1,0 +1,19 @@
+{% extends "base1.html" %}<!--Heredado o extendido de base1.html -->
+
+{% block content %}<!-- Esto es lo que irá en las etiquetas de block content que dejamos vacías en base1.html Nota: si coloco dentro de este comentario el block content con sus llaves y signos de porcentajes ({% block cont...) para referenciar como ejemplo, levanta una excepción diciendo que está duplicada dicha etiqueta. Este comentario no la invisibiliza, por lo cual no las pude poner. -->
+<h1>Librería Del Pueblo</h1>
+
+  <p>Welcome to <em>LocalLibrary</em>, a very basic Django website developed as a tutorial example on the Mozilla Developer Network.</p>
+
+<h2>Dynamic content</h2>
+
+  <p>The library has the following record counts:</p>
+  <ul>
+    <li><strong>Libros:</strong> {{ cant_libros }}</li>
+    <li><strong>Copias:</strong> {{ cant_instancias }}</li>
+    <li><strong>Copias disponibles:</strong> {{ cant_inst_dispon }}</li>
+    <li><strong>Autores:</strong> {{ cant_autores }}</li>
+    <li><strong>Generos:</strong> {{ cant_generos }}</li>
+  </ul>
+
+{% endblock %}

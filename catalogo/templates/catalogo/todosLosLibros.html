@@ -1,0 +1,27 @@
+{% extends "base1.html" %}
+
+{% block content %}
+    <h1>Lista de libros</h1>
+
+    {% if mi_listaDeLibros %}
+    <ul>
+
+      {% for objetoNomArbitr in mi_listaDeLibros %}
+      <li>
+
+        <a href="{{ objetoNomArbitr.get_absolute_url }}">{{ objetoNomArbitr.titulo }}</a> ({{objetoNomArbitr.autor}} id autor:{{ objetoNomArbitr.autor.id }}) (id libro:{{ objetoNomArbitr.id }})
+<!-- Recuerde que este hipervínculo (href), llama al método get_absolute_url(self) del modelo que se está utilizando, en este caso, Libro, que retorna reverse('detallesDeLibro', args=[str(self.id)])  -->
+      </li>
+      {% endfor %}
+    <br>
+    <br>
+    <p>Variable de contexto mi_listaDeLibros: {{ mi_listaDeLibros }}</p>
+    </ul>
+    <br>
+    {% else %}  
+      <p>No hay libros en la biblioteca.</p>
+    {% endif %}
+    <br>
+    <p><a href="{% url 'librosConBarbara' %}">Libros con barbara</a></p>
+{% endblock %}
+

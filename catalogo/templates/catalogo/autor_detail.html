@@ -1,0 +1,15 @@
+{% extends "base1.html" %}
+
+{% block content %}
+  <h1>Autor: {{ autor }} autor.id:{{ autor.id }}</h1>
+  <p><strong>{{ autor.nacimiento }}, {{ autor.muerte }}</p>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Libros</h4> 
+    {% for libro in autor.libro_set.all %}
+    <hr><!-- { libro.get_absolute_url }-->
+    <p><a href="{{ libro.get_absolute_url }}">{{ libro.titulo }}</a> (libro.id:{{ libro.id }})</p>
+    <p class="text-muted">{{libro.descripcion}}</p>
+    {% endfor %}
+  </div>
+{% endblock %}
