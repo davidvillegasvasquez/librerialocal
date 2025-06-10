@@ -8,7 +8,7 @@ Listar tablas y vistas de una base de datos abiertai: .tables
 Listar tablas utilizando patrones: .tables "prefijo%" .tables "%sufijo"
 Listar esquema (estructura): .schema nombretabla ó .fullschema
 Listar índices: .indexes ó .indices
-Listar campos de una tabla: PRAGMA table_info("usuarios");
+Listar campos de una tabla: pragma table_info("usuarios");
 Ejecutar comandos SQL almacenados en un archivo: .read archivo.sql 
 Añadir base datos a sesión actual: ATTACH DATABASE "nueva.sqlite3" AS nueva;
 Ayuda: .help

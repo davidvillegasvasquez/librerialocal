@@ -1,7 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render #, redirect
 from .models import Libro, Autor, LibroInstancia, Genero
+#from django.urls import reverse
 
 # Create your views here.
+def borrarConteoVisitas(solicitudReset):
+    """
+    Ejemplo de como borrar conteo con la propiedad session
+    """  
+    solicitudReset.session['numeroDeVisitasAinicio'] = 0
+    #solicitudReset.session.clear() #Da el mismo efecto de restablecer el contador, pero borra todos los demás parámetros de la sesión.
+     
+    #return redirect('/') Para usar con redirect y reverse. Es la mejor opción.
+    return render(solicitudReset,'base1-inicio.html',context={'cantVisitas':0})
+
 def inicio(solicitud):
     """
     Función vista para la página inicio del sitio.
@@ -11,10 +22,15 @@ def inicio(solicitud):
     #num_instancias=LibroInstancia.objects.count() # El 'all()' esta implícito por defecto.
     #Libros disponibles (status = 'd')
     num_instan_disponi=LibroInstancia.objects.filter(estatus__exact='d').count()
-    num_autores=Autor.objects.count()  
+    num_autores=Autor.objects.count()
+    # Numero de visitas a esta view, como está contado en la variable de sesión.
+    numeroDeVisitas = solicitud.session.get('numeroDeVisitasAinicio', 0)#Como no está predefinida de arranque en el dict solicitud.session, le asignamos un nombre de identificador arbitrario (numeroDeVisitas) al contador de sesiones.
+    #También recuerde que el identificador con nombre arbitrario (solicitud) es el nombre del parámetro que usamos en esta función, y pasa un objeto de la clase HttpRequest que tiene el atributo .session
+    numeroDeVisitas += 1
+    solicitud.session['numeroDeVisitasAinicio'] = numeroDeVisitas
 
     # Renderiza la plantilla HTML inicio.html con los datos en la variable contexto
-    return render(solicitud,'base1-inicio.html',context={'cant_libros':num_libros,'cant_instancias':LibroInstancia.objects.count(), 'cant_inst_dispon':num_instan_disponi,'cant_autores':num_autores, 'cant_generos':Genero.objects.count()})
+    return render(solicitud,'base1-inicio.html',context={'cant_libros':num_libros,'cant_instancias':LibroInstancia.objects.count(), 'cant_inst_dispon':num_instan_disponi,'cant_autores':num_autores, 'cant_generos':Genero.objects.count(), 'cantVisitas':numeroDeVisitas})
 #Recuerde que podemos colocar el retorno del atributo objects.count() directamente en el valor de la clave del par clave-valor en el diccionario.
 
 from django.views import generic

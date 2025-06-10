@@ -14,6 +14,9 @@
     <li><strong>Copias disponibles:</strong> {{ cant_inst_dispon }}</li>
     <li><strong>Autores:</strong> {{ cant_autores }}</li>
     <li><strong>Generos:</strong> {{ cant_generos }}</li>
+    <li><a href="{% url 'resetearVisitas' %}">Reestablecer contador</a></li>
   </ul>
+<p>Has visitado esta página {{ cantVisitas }}{% if cantVisitas == 1 %} vez {% else %} veces {% endif %}.</p>
+
 
 {% endblock %}
