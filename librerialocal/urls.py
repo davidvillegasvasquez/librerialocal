@@ -25,3 +25,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),path('catalogo/', include('catalogo.urls')),path('', RedirectView.as_view(url='/catalogo/', permanent=True)),
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+#Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]
+#El nombre url accounts no puede ser arbitrario, porque django en sus vistas genéricas utiliza este nombre para su implementación.

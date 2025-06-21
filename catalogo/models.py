@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import date
+
 
 # Create your models here.
 
@@ -62,6 +65,7 @@ class LibroInstancia(models.Model):
     libro = models.ForeignKey('Libro', on_delete=models.SET_NULL, null=True)
     imprenta = models.CharField(max_length=200)
     debidoderegresar = models.DateField(null=True, blank=True)
+    prestatario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     PRESTAMO_STATUS = (
         ('m', 'Mantenimieno'),
@@ -75,6 +79,11 @@ class LibroInstancia(models.Model):
     class Meta:
         ordering = ["debidoderegresar"] #ordering es un apuntador-identificador de palabra reservada de django para esta clase, no puedo usar el nombre "ordenar".
 
+    @property
+    def estaVencido(self):
+        if self.debidoderegresar and date.today() > self.debidoderegresar:
+            return True
+        return False
 
     def __str__(self):
         """

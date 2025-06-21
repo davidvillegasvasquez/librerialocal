@@ -27,6 +27,13 @@
           <li><a href="{% url 'toditicosLosAutores' %}">Todos los autores</a></li>
           <li><a href="/admin">Ir a admin</a></li>
           <li><a href="{% url 'resetearVisitas' %}">Reestablecer contador</a></li>
+          {% if user.is_authenticated %}
+          <li>Usuario: {{ user.get_username }}</li>
+          <li><a href="{% url 'misLibrosalquilados' %}">Mis libros prestados</a></li>
+          <li><a href="{% url 'logout'%}?next={{request.path}}">Cerrar sesión</a></li>
+          {% else %}
+          <li><a href="{% url 'login'%}?next={{request.path}}">Iniciar sesión</a></li>
+          {% endif %}
       </ul>
           
      {% endblock %}

@@ -121,3 +121,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 SESSION_SAVE_EVERY_REQUEST = False
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+

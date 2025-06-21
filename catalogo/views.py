@@ -1,6 +1,6 @@
-from django.shortcuts import render #, redirect
+from django.shortcuts import render, redirect
 from .models import Libro, Autor, LibroInstancia, Genero
-#from django.urls import reverse
+from django.urls import reverse
 
 # Create your views here.
 def borrarConteoVisitas(solicitudReset):
@@ -10,9 +10,9 @@ def borrarConteoVisitas(solicitudReset):
     solicitudReset.session['numeroDeVisitasAinicio'] = 0
     #solicitudReset.session.clear() #Da el mismo efecto de restablecer el contador, pero borra todos los demás parámetros de la sesión.
      
-    #return redirect('/') Para usar con redirect y reverse. Es la mejor opción.
-    return render(solicitudReset,'base1-inicio.html',context={'cantVisitas':0})
-
+    return redirect('/') #Para usar con redirect y reverse. Es la mejor opción.
+    #return render(solicitudReset,'base1-inicio.html',context={'cantVisitas':0})
+    #Si se usa la función render, se perderá la visualización en otras variables de contexto a la primera sesión.
 def inicio(solicitud):
     """
     Función vista para la página inicio del sitio.
@@ -24,7 +24,7 @@ def inicio(solicitud):
     num_instan_disponi=LibroInstancia.objects.filter(estatus__exact='d').count()
     num_autores=Autor.objects.count()
     # Numero de visitas a esta view, como está contado en la variable de sesión.
-    numeroDeVisitas = solicitud.session.get('numeroDeVisitasAinicio', 0)#Como no está predefinida de arranque en el dict solicitud.session, le asignamos un nombre de identificador arbitrario (numeroDeVisitas) al contador de sesiones.
+    numeroDeVisitas = solicitud.session.get('numeroDeVisitasAinicio', 0)#Como no está predefinida de arranque en el dict solicitud.session, le asignamos un nombre de identificador arbitrario (numeroDeVisitasAinicio) al contador de sesiones.
     #También recuerde que el identificador con nombre arbitrario (solicitud) es el nombre del parámetro que usamos en esta función, y pasa un objeto de la clase HttpRequest que tiene el atributo .session
     numeroDeVisitas += 1
     solicitud.session['numeroDeVisitasAinicio'] = numeroDeVisitas
@@ -34,8 +34,12 @@ def inicio(solicitud):
 #Recuerde que podemos colocar el retorno del atributo objects.count() directamente en el valor de la clave del par clave-valor en el diccionario.
 
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class LibroVistaLista(generic.ListView):
+class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
+    #login_url = '/accounts/login' #accounts es mandatorio, no puede ser un identificador arbitrario, porque las vistas genericas buscan las cuentas con este identificador predefinido en la implementación de django.
+    #redirect_field_name = 'catalogo/' #Si descomento, me dirige a la página inicial (catalogo/), en vez de seguir su camino natural que era el link "todos
+#los libros", es decir, hacia su plantilla, que en este caso le pusimos nombre: template_name = 'catalogo/todosLosLibros.html', que ya estará desbloqueada para este caso.
     model = Libro
     context_object_name = 'mi_listaDeLibros'#Atributo opcional: si no lo uso, la variable de contexto del objeto en la plantilla para esta vista, será automáticamente libro_list, es decir, nombreDelModeloEnMinuscula_list.
     template_name = 'catalogo/todosLosLibros.html' #Atributo opcional. En caso de usar solamente una clase, el nombre por defecto de su plantilla única será:
@@ -59,3 +63,15 @@ class VistaListaGenAutores(generic.ListView):
 
 class VistaDetalladaGenAutor(generic.DetailView):
     model = Autor 
+
+class ListaLibrosPrestadosAlUsuario(LoginRequiredMixin,generic.ListView):
+    """
+    Vista genérica basada en clases que enumera los libros prestados al usuario actual.
+    """
+    model = LibroInstancia
+    template_name ='catalogo/listaInstanciasDeLibrosPrestadasAlUsuario.html'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return LibroInstancia.objects.filter(prestatario=self.request.user).filter(estatus__exact='p').order_by('debidoderegresar')
+
