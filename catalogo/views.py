@@ -37,7 +37,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
-    #login_url = '/accounts/login' #accounts es mandatorio, no puede ser un identificador arbitrario, porque las vistas genericas buscan las cuentas con este identificador predefinido en la implementación de django.
+    #login_url = '/accounts/login' #accounts es mandatorio, no puede ser un nombre arbitrario para esta url, porque las vistas genericas buscan las cuentas con este identificador predefinido en la implementación de django.
     #redirect_field_name = 'catalogo/' #Si descomento, me dirige a la página inicial (catalogo/), en vez de seguir su camino natural que era el link "todos
 #los libros", es decir, hacia su plantilla, que en este caso le pusimos nombre: template_name = 'catalogo/todosLosLibros.html', que ya estará desbloqueada para este caso.
     model = Libro
@@ -75,3 +75,15 @@ class ListaLibrosPrestadosAlUsuario(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         return LibroInstancia.objects.filter(prestatario=self.request.user).filter(estatus__exact='p').order_by('debidoderegresar')
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+class ListaDeLibrosPrestadosActualmente(PermissionRequiredMixin, generic.ListView):
+    """
+    Vista tipo lista genérica basada en clases que enumera todos los libros prestados actualmente, y que sólo puede ser mostrado si el usuario pertenece al grupo de bibliotecarios.
+    """
+    permission_required = ('catalogo.puedeMarcarRetornado',)
+    model = LibroInstancia
+    template_name ='catalogo/todosLosLibrosPrestadosActualmente.html'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return LibroInstancia.objects.filter(estatus__exact='p').order_by('debidoderegresar')

@@ -19,7 +19,7 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-sm-2">
+      <div class="col-sm-3">
       {% block barraLateral %}
       <ul class="sidebar-nav">
           <li><a href="{% url 'vistaHome' %}">Home</a></li>
@@ -29,8 +29,15 @@
           <li><a href="{% url 'resetearVisitas' %}">Reestablecer contador</a></li>
           {% if user.is_authenticated %}
           <li>Usuario: {{ user.get_username }}</li>
-          <li><a href="{% url 'misLibrosalquilados' %}">Mis libros prestados</a></li>
-          <li><a href="{% url 'logout'%}?next={{request.path}}">Cerrar sesión</a></li>
+          <li><a href="{% url 'misLibrosalquilados' %}">Libros en manos de {{ user.get_username }} </a></li>
+          <li><a href="{% url 'logout'%}?next={{request.path}}">Cerrar sesión</a></li>      
+            {% if perms.catalogo.puedeMarcarRetornado %}
+              <li></li>
+              <hr>
+              <li></li>
+              <li>Staff</li>
+              <li><a href="{% url 'librosAlquiladosActualmente' %}">Libros Prestados</a></li>
+            {% endif %}
           {% else %}
           <li><a href="{% url 'login'%}?next={{request.path}}">Iniciar sesión</a></li>
           {% endif %}
@@ -38,7 +45,7 @@
           
      {% endblock %}
       </div>
-      <div class="col-sm-10 ">
+      <div class="col-sm-7 ">
 <!-- Bloque para sobreescribir en la plantilla heredera o hija -->
       {% block content %}{% endblock %}
 

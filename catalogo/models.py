@@ -78,6 +78,7 @@ class LibroInstancia(models.Model):
 
     class Meta:
         ordering = ["debidoderegresar"] #ordering es un apuntador-identificador de palabra reservada de django para esta clase, no puedo usar el nombre "ordenar".
+        permissions = (("puedeMarcarRetornado", "Colocar libro como retornado"),)
 
     @property
     def estaVencido(self):

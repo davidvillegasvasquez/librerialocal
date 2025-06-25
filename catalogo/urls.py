@@ -8,6 +8,10 @@ urlpatterns += [
     path('Mislibrosalquilados/', views.ListaLibrosPrestadosAlUsuario.as_view(), name='misLibrosalquilados'),
 ]
 
+urlpatterns += [
+    path('TodosLosLibrosActualmenteAlquilados/', views.ListaDeLibrosPrestadosActualmente.as_view(), name='librosAlquiladosActualmente'),
+]
+
 #El parámetro name identifica de manera única este mapeador de URL particular. Lo localizamos en la plantilla base, base1.html. para enlazar a home (<a href="{% url 'index' %}">Home</a>).
 #En la variable de url <int:pk>, el nombre de parámetro pk es un nombre arbitrario y no obligatorio.
 #Este mapeador buscará automaticamente la plantilla libro_detail.html, y en su contexto, usará toda la información pasada a través de los atributos del modelo.
