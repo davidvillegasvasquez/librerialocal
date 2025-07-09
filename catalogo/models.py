@@ -44,8 +44,7 @@ class Libro(models.Model):
         """
         Devuelve el URL a una instancia particular de Book
         """
-        return reverse('detallesDeLibro', args=[str(self.id)])#Para las vistas detalladas que requieren el id como parámetro en la url, el parámetro name de la función path en el mapeador urls.py debe tener este nombre, 
-#de lo contrario se presentará la excepción: Reverse for 'detallesDeLibro' not found. 'libroDetalles' is not a valid view function or pattern name.
+        return reverse('detallesDeLibro', args=[str(self.id)])#Para las vistas detalladas que requieren el id de una instancia de este modelo como parámetro en la url, el parámetro name de la función path en el mapeador urls.py debe tener este #nombre ('detallesDeLibro') de url respectivo a dicha vista detallada genérica, de lo contrario se presentará la excepción: Reverse for 'detallesDeLibro' not found. 'libroDetalles' is not a valid view function or pattern name.
     class Meta:
         ordering = ['titulo', 'autor']
 

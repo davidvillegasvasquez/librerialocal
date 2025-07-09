@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles','catalogo.apps.CatalogoConfig',
+    'django.contrib.staticfiles','catalogo.apps.configuracionDeCatalogo',
 ]
 
 MIDDLEWARE = [
@@ -66,8 +65,9 @@ TEMPLATES = [
         },
     },
 ]
-#Como templates es palabra reservada django, no sé porque hay que colocarla manualmente en el valor lista de funciones os.path.join de la clave ('DIRS': [os.path.join(BASE_DIR, 'templates'),]), cuando django debería colocarla automáticamente.
-#Creo que es que no toda respuesta de una vista es necesariamente una plantilla para un navegador.
+#Como templates es palabra reservada django, no sé por qué hay que colocarla manualmente en el valor lista de funciones os.path.join de la clave ('DIRS': [os.path.join(BASE_DIR, 'templates'),])
+#, cuando django debería colocarla automáticamente.
+#Creo que se debe a que no toda respuesta de una vista es necesariamente una plantilla para un navegador.
 
 WSGI_APPLICATION = 'librerialocal.wsgi.application'
 
@@ -126,4 +126,3 @@ SESSION_SAVE_EVERY_REQUEST = False
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-

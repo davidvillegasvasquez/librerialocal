@@ -54,7 +54,7 @@ class LibroVistaListaConBarbara(generic.ListView):
     queryset = Libro.objects.filter(titulo__icontains='barbara')
 
 class VistaDetalleLibro(generic.DetailView):
-    model = Libro #Como las listas genericas, los demás atributos son opcionales. Aquí usaremos los atributos por defectos que nos proporciona django(automáticos).
+    model = Libro #Como las listas genericas, los demás atributos son opcionales. Aquí usaremos los atributos por defectos que nos proporciona django(automáticos, implicitos).
     #template_name = 'catalogo/libroDetalle.html' #Podemos usar también como en listas genéricas, nombres arbitrarios para la plantilla, si no queremos usar los automáticos de django (nombreDelModelo_detail.html).
 
 class VistaListaGenAutores(generic.ListView):
@@ -64,7 +64,7 @@ class VistaListaGenAutores(generic.ListView):
 class VistaDetalladaGenAutor(generic.DetailView):
     model = Autor 
 
-class ListaLibrosPrestadosAlUsuario(LoginRequiredMixin,generic.ListView):
+class ListaLibrosPrestadosAlUsuario(LoginRequiredMixin, generic.ListView):
     """
     Vista genérica basada en clases que enumera los libros prestados al usuario actual.
     """
@@ -76,14 +76,58 @@ class ListaLibrosPrestadosAlUsuario(LoginRequiredMixin,generic.ListView):
         return LibroInstancia.objects.filter(prestatario=self.request.user).filter(estatus__exact='p').order_by('debidoderegresar')
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
+
 class ListaDeLibrosPrestadosActualmente(PermissionRequiredMixin, generic.ListView):
     """
     Vista tipo lista genérica basada en clases que enumera todos los libros prestados actualmente, y que sólo puede ser mostrado si el usuario pertenece al grupo de bibliotecarios.
     """
-    permission_required = ('catalogo.puedeMarcarRetornado',)
+    permission_required = ('catalogo.puedeMarcarRetornado',)#Puede ser una tupla con n permisos requeridos.
     model = LibroInstancia
     template_name ='catalogo/todosLosLibrosPrestadosActualmente.html'
     paginate_by = 2
 
     def get_queryset(self):
         return LibroInstancia.objects.filter(estatus__exact='p').order_by('debidoderegresar')
+
+from django.contrib.auth.decorators import permission_required
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+#from django.url import reverse #Note que a diferencia de la otra importación (from django.urls), esta es en singular. 
+import datetime
+
+from .forms import FormRenovDeLibros
+
+@permission_required('catalogo.puedeMarcarRetornado')
+def renovacionLibroPorLibrero(solicitud, claveprimaria):
+    """
+    View function for renewing a specific BookInstance by librarian
+    """
+    libroInstancia=get_object_or_404(LibroInstancia, pk = claveprimaria)
+
+    # If this is a POST request then process the Form data
+    if solicitud.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        formulario = FormRenovDeLibros(solicitud.POST)
+
+        # Check if the form is valid:
+        if formulario.is_valid():
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            libroInstancia.debidoderegresar = formulario.cleaned_data['renovacion_fecha']
+            libroInstancia.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('librosAlquiladosActualmente') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        fechaDeRenovacionPropuesta = datetime.date.today() + datetime.timedelta(weeks=3)
+        formulario = FormRenovDeLibros(initial={'renovacion_fecha': fechaDeRenovacionPropuesta,})
+
+    return render(solicitud, 'catalogo/renovacionLibroPorLibrero.html', {'formulario': formulario, 'instanciaDeLibro':libroInstancia})
+
+
+
+
+

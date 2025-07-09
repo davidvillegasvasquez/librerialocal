@@ -18,8 +18,8 @@ from django.urls import path
 from django.urls import include
 #Add URL maps to redirect the base URL to our application
 from django.views.generic import RedirectView
-# Use static() to add url mapping to serve static files during development (only)
 from django.conf import settings
+# Use static() to add url mapping to serve static files during development (only)
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -30,4 +30,4 @@ urlpatterns = [
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
-#El nombre url accounts no puede ser arbitrario, porque django en sus vistas genéricas utiliza este nombre para su implementación.
+#El nombre url accounts no puede ser arbitrario, porque django en sus vistas genéricas utiliza este nombre en su implementación.

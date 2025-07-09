@@ -1,5 +1,4 @@
 from django.apps import AppConfig
 
-
-class CatalogoConfig(AppConfig):
+class configuracionDeCatalogo(AppConfig):
     name = 'catalogo'

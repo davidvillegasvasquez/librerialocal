@@ -27,7 +27,7 @@ class LibroInstanciaAdmin(admin.ModelAdmin):
     
     fieldsets = ((None, {'fields': ('libro', 'imprenta', 'id')}),('Disponibilidad', {'fields': ('estatus', 'debidoderegresar', 'prestatario')}),)
 
-#Dejamos registros sencillos (no es necesario hacer una clase para ellos), para modelos sencillos de un sólo campo:
+#Hacemos registros sencillos (no es necesario hacer una clase para ellos), para modelos sencillos de un sólo campo:
 
 admin.site.register(Genero)
 admin.site.register(Lenguaje)

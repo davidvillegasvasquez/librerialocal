@@ -1,8 +1,8 @@
 {% extends "base1.html" %}
 
 {% block content %}
-  <h1>Autor: {{ autor }} autor.id:{{ autor.id }}</h1>
-  <p><strong>{{ autor.nacimiento }}, {{ autor.muerte }}</p>
+  <h1>Autor: {{ autor }} <span style="font-family: Arial; font-size: 18px; color: blue;">(autor.id:{{ autor.id }})</span></h1>
+  <p><strong>{{ autor.nacimiento }} - {{ autor.muerte }}</p>
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Libros</h4> 

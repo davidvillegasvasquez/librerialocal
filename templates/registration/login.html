@@ -28,7 +28,7 @@
       </tr>
     </table>
     <input type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
+    <input type="hidden" name="next" value=""><!-- Con value={{next}} me deja dónde había quedado, que era LibrosEnManosDelUsuario/<str:username> pero con el usuario anterior, que no se como actualizar. De hecho en la plantilla logout queda el url indicando el usuario anterior. Averiguar cómo actualizar dicho url en ese paso.-->
   </form>
 
   {# Asume que configura la vista de restablecimiento de contraseña en su URLconf #}
