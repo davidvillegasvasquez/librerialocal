@@ -55,6 +55,7 @@ class Libro(models.Model):
     mostrar_genero.short_description = 'Genero'
 
 import uuid # Requerida para las instancias de libros únicos
+from django.core.validators import MaxValueValidator, MinValueValidator 
 
 class LibroInstancia(models.Model):
     """

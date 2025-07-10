@@ -12,7 +12,8 @@ urlpatterns += [
     path('TodosLosLibrosActualmenteAlquilados/', views.ListaDeLibrosPrestadosActualmente.as_view(), name='librosAlquiladosActualmente'),
 ]
 
-# Podemos nombrar de forma arbitraria nuestros datos de URL capturados, en este caso, "claveprimaria". Claro, usar el nombre pk, abreviatura de "primary key", es una convención razonable de usar!
+# Podemos nombrar de forma arbitraria nuestros datos de URL capturados, en este caso, "claveprimaria". Claro, usar el nombre de parámetro "pk", abreviatura de "primary key", es una convención razonable de usar!
+#Ojo, una vez que usa un nombre de parámetro, no lo puede cambiar porque el núcleo de django lo escribío una sola vez para ese nombre:
 urlpatterns += [
     path('libro/<uuid:claveprimaria>/renovacion/', views.renovacionLibroPorLibrero, name='renovDeLibroPorLibrero'),
 ]

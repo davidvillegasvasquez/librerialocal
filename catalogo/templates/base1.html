@@ -1,8 +1,9 @@
+{% load static %} <!-- Sin esta etiqueta no se cargará el favicon que está en el directorio de los estáticos. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   
-  <link rel="icon" type="image/x-icon" href="images/djangoIcon.svg">
+  <link rel="icon" type="image/x-icon" href="{% static 'images/djangoIco.svg' %}"><!-- Link para el favicon. -->
   {% block title %}<title>Librería Municipal</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -89,15 +89,14 @@ class ListaDeLibrosPrestadosActualmente(PermissionRequiredMixin, generic.ListVie
     def get_queryset(self):
         return LibroInstancia.objects.filter(estatus__exact='p').order_by('debidoderegresar')
 
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-#from django.url import reverse #Note que a diferencia de la otra importación (from django.urls), esta es en singular. 
 import datetime
+from catalogo.forms import FormRenovDeLibros
 
-from .forms import FormRenovDeLibros
-
+@login_required
 @permission_required('catalogo.puedeMarcarRetornado')
 def renovacionLibroPorLibrero(solicitud, claveprimaria):
     """
@@ -114,7 +113,8 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
         # Check if the form is valid:
         if formulario.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            libroInstancia.debidoderegresar = formulario.cleaned_data['renovacion_fecha']
+            libroInstancia.debidoderegresar= formulario.cleaned_data['renovacionFecha']
+            print('libroInstancia.debidoderegresar=', libroInstancia.debidoderegresar)
             libroInstancia.save()
 
             # redirect to a new URL:
@@ -123,9 +123,9 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
     # If this is a GET (or any other method) create the default form.
     else:
         fechaDeRenovacionPropuesta = datetime.date.today() + datetime.timedelta(weeks=3)
-        formulario = FormRenovDeLibros(initial={'renovacion_fecha': fechaDeRenovacionPropuesta,})
+        formulario = FormRenovDeLibros(initial={'renovacionFecha': fechaDeRenovacionPropuesta}) #Ojo: los nombres de variables de contexto deben coincidir con sus respectivos nombres de campo en la clase formulario creada, o no se visualizarán en la plantilla.
 
-    return render(solicitud, 'catalogo/renovacionLibroPorLibrero.html', {'formulario': formulario, 'instanciaDeLibro':libroInstancia})
+    return render(solicitud, 'catalogo/formularioRenovacion.html', {'formulario': formulario, 'instanciaDeLibro':libroInstancia})
 
 
 
