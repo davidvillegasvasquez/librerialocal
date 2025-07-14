@@ -12,18 +12,15 @@ urlpatterns += [
     path('TodosLosLibrosActualmenteAlquilados/', views.ListaDeLibrosPrestadosActualmente.as_view(), name='librosAlquiladosActualmente'),
 ]
 
-# Podemos nombrar de forma arbitraria nuestros datos de URL capturados, en este caso, "claveprimaria". Claro, usar el nombre de parámetro "pk", abreviatura de "primary key", es una convención razonable de usar!
-#Ojo, una vez que usa un nombre de parámetro, no lo puede cambiar porque el núcleo de django lo escribío una sola vez para ese nombre:
 urlpatterns += [
     path('libro/<uuid:claveprimaria>/renovacion/', views.renovacionLibroPorLibrero, name='renovDeLibroPorLibrero'),
 ]
+#Nota: Podemos nombrar nuestros datos de URL capturados "claveprimaria" como queramos, porque tenemos un control completo sobre la función de vista (no
+#estamos usando una clase de vista de detalles genérica que espere parámetros con un nombre determinado). sin embargo pk, abreviatura de "primary key", es una convención razonable de usar!
+#Ojo: En <uuid:claveprimaria> del url, el nombre arbitrario "claveprimaria" que pareciera un parámetro real, comporta un nombre de parámetro que transportará el valor id de la instancia en cuestión, y que reconocerá la vista correspondiente.
+#Por lo tanto, debe estar escrita igualmente en los parámetros formales de dicha función o clase de la respectiva vista.
 
-#El parámetro name identifica de manera única este mapeador de URL particular. Lo localizamos en la plantilla base, base1.html. para enlazar a home (<a href="{% url 'index' %}">Home</a>).
-#En la variable de url <int:pk>, el nombre de parámetro pk es un nombre arbitrario, no obligatorio.
-#Este mapeador buscará automaticamente la plantilla libro_detail.html, y en su contexto, usará toda la información pasada a través de los atributos del modelo.
-#El parámetro name para las vistas genéricas detalladas, deben ser las referenciadas con el nombre utilizadas en el retorno del atributo método, get_absolute_url (return reverse('nombreDelUrl', args=[str(self.id)])), del modelo en cuestión.
-#Y se referencian en las plantillas por doble corchete sin uso de simbolo % (href={% url 'nombre' %}), ni la proposición url antes del nombre. Ej:
-#href="{{ objetoNomArbitr.get_absolute_url }}", dónde objetoNomArbitr es un identificador apuntador en la plantilla, a un objeto del modelo (clase), que tiene dicho método atributo .get_absolute_url.
-#Atención: duré como 3 horas tirando flecha para la vista de reiniciar el contador: si nó coloco un texto, así sea un sólo caracter en la url, y dejo las comillas vacias, se tomará 
-#la url de la primera vista (views.inicio), con url '', y no se reiniciará ningún contador, porque no se llamará ninguna vista views.borrarConteoVisitas sino a views.inicio.
-#Esto nos dice que diferentes nombres urls pueden referenciar la misma función si tienen igual cadena de url en el primer parámetro de la función path.
+urlpatterns += [
+    path('autor/crear/', views.CrearAutor.as_view(), name='crearautorini'),
+    path('autor/<int:pk>/actualizar/', views.ActualizarAutor.as_view(), name='actualizarEsteAutor'), path('autor/<int:pk>/borrar/', views.BorrarAutor.as_view(), name='borrar-autor'),]
+# Debemos usar pk como el nombre de nuestro valor de clave principal (primary key) capturado, ya que este es el nombre del parámetro esperado por las clases de vista de ediciones genéricas implementadas para ello.

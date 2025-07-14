@@ -14,7 +14,8 @@
   <!-- Add additional CSS in static file -->
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-  <link rel="icon" type="image/x-icon" href="{% static 'images/djangoIcon.svg' %}">
+  <!-- Agregamos el favicon: -->
+  <link rel="shortcut icon" type="image/svg" href="{% static 'images/logoEmpresa.svg' %}">
 </head>
 
 <body>
@@ -40,6 +41,7 @@
               <li></li>
               <li>Staff</li>
               <li><a href="{% url 'librosAlquiladosActualmente' %}">Todos los libros prestados actualmente por la biblioteca</a></li>
+              <li><a href="{% url 'crearautorini' %}">Crear Autor</a></li>
             {% endif %}
           {% else %}
           <li><a href="{% url 'login'%}?next={{request.path}}">Iniciar sesión</a></li>

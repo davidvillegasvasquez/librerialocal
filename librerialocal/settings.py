@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #Usamos esta proposición porque el directorio static lo tenemos a nivel de la aplicación, no en la raíz. De lo contrario no sería necesaria.
+STATICFILES_DIRS = [BASE_DIR, 'static'] #Registramos un directorio static en la raíz del proyecto para el favicon.
 
 SESSION_SAVE_EVERY_REQUEST = False
 

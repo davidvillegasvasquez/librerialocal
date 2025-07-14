@@ -3,7 +3,7 @@
 
     <h1>Renovar: {{instanciaDeLibro.libro.titulo}}</h1>
     <p>Prestatario: {{instanciaDeLibro.prestatario}}</p>
-    <p{% if instanciaDeLibro.estaVencido %} class="text-danger"{% endif %}>Debe regresar el: {{instanciaDeLibro.debidoderegresar}}</p>
+    <p{% if instanciaDeLibro.estaVencido %} class="text-danger"{% endif %}>Debió regresar el: {{instanciaDeLibro.debidoderegresar}}</p>
 
     <form action="" method="post">
         {% csrf_token %}

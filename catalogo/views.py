@@ -94,9 +94,9 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 import datetime
-from catalogo.forms import FormRenovDeLibros
+from catalogo.forms import ModeloFormRenovDeLibros
 
-@login_required
+#@login_required #Trabaja igual sin este decorador. Averiguar por qué?
 @permission_required('catalogo.puedeMarcarRetornado')
 def renovacionLibroPorLibrero(solicitud, claveprimaria):
     """
@@ -108,26 +108,38 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
     if solicitud.method == 'POST':
 
         # Create a form instance and populate it with data from the request (binding):
-        formulario = FormRenovDeLibros(solicitud.POST)
-
+        formulario = ModeloFormRenovDeLibros(solicitud.POST)
         # Check if the form is valid:
         if formulario.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            libroInstancia.debidoderegresar= formulario.cleaned_data['renovacionFecha']
-            print('libroInstancia.debidoderegresar=', libroInstancia.debidoderegresar)
+            libroInstancia.debidoderegresar= formulario.cleaned_data['debidoderegresar']
             libroInstancia.save()
-
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('librosAlquiladosActualmente') )
 
     # If this is a GET (or any other method) create the default form.
     else:
         fechaDeRenovacionPropuesta = datetime.date.today() + datetime.timedelta(weeks=3)
-        formulario = FormRenovDeLibros(initial={'renovacionFecha': fechaDeRenovacionPropuesta}) #Ojo: los nombres de variables de contexto deben coincidir con sus respectivos nombres de campo en la clase formulario creada, o no se visualizarán en la plantilla.
+        formulario = ModeloFormRenovDeLibros(initial={'debidoderegresar': fechaDeRenovacionPropuesta}) #Ojo: los nombres de variables de contexto deben coincidir con sus respectivos nombres de campo en la clase formulario creada, o no se visualizarán en la plantilla.
 
     return render(solicitud, 'catalogo/formularioRenovacion.html', {'formulario': formulario, 'instanciaDeLibro':libroInstancia})
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Autor
 
+class CrearAutor(CreateView):
+    """
+    Las vistas "create" y "update" utilizan la misma plantilla de forma predeterminada, que se nombrará después de su model: model_name_form.html (puedes cambiar el sufijo a algo diferente a _form usando el campo template_name_suffix en tu vista, ejemplo: template_name_suffix = '_other_suffix')
+    """
+    model = Autor
+    fields = '__all__'
+    initial={'muerte':'05/01/2018',}
 
+class ActualizarAutor(UpdateView):
+    model = Autor
+    fields = ['nombre','apellido','nacimiento','muerte']
 
-
+class BorrarAutor(DeleteView):
+    model = Autor
+    success_url = reverse_lazy('toditicosLosAutores')
