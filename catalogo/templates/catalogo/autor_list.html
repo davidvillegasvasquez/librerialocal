@@ -9,7 +9,7 @@
       {% for objetoX in autor_list %}
       <li>
         <a href="{{ objetoX.get_absolute_url }}">
-      {{ objetoX }} </a>(id:{{ objetoX.id }}) ({{objetoX.nacimiento}} - {% if objetoX.muerte %}{{objetoX.muerte}}{% endif %}) {% if perms.catalogo.puedeMarcarRetornado %}- <a href="{% url 'actualizarEsteAutor' objetoX.id %}">Actualizar</a>  <a href="{% url 'borrar-autor' objetoX.id %}">Borrar</a>{% endif %}
+      {{ objetoX }} </a>(id:{{ objetoX.id }}) ({{objetoX.nacimiento}} - {% if objetoX.muerte %}{{objetoX.muerte}}{% endif %}) {% if perms.catalogo.puedeMarcarRetornado %}<a href="{% url 'actualizarEsteAutor' objetoX.id %}">Actualizar</a> {% endif %}{% if user.is_staff %}<a href="{% url 'borrar-autor' objetoX.id %}">-Borrar</a>{% endif %}
       </li>
       {% endfor %}
     <br>

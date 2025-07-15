@@ -118,9 +118,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATICFILES_DIRS = [BASE_DIR, 'static'] #Registramos un directorio static en la raíz del proyecto para el favicon.
+#STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_DIRS = [BASE_DIR, 'static'] #Registramos un directorio static en la raíz del proyecto para el favicon.
+STATIC_URL = '/static/'
 
 SESSION_SAVE_EVERY_REQUEST = False
 

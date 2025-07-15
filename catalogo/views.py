@@ -126,7 +126,6 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Autor
 
 class CrearAutor(CreateView):
     """
@@ -135,6 +134,7 @@ class CrearAutor(CreateView):
     model = Autor
     fields = '__all__'
     initial={'muerte':'05/01/2018',}
+    success_url = reverse_lazy('toditicosLosAutores')
 
 class ActualizarAutor(UpdateView):
     model = Autor
@@ -143,3 +143,17 @@ class ActualizarAutor(UpdateView):
 class BorrarAutor(DeleteView):
     model = Autor
     success_url = reverse_lazy('toditicosLosAutores')
+
+class CrearLibro(CreateView):
+    model = Libro
+    fields = '__all__'
+    success_url = reverse_lazy('todosLoslibros')
+
+class ActualizarLibro(UpdateView):
+    model = Libro
+    fields = '__all__'
+
+class BorrarLibro(DeleteView):
+    model = Libro
+    success_url = reverse_lazy('todosLoslibros')
+

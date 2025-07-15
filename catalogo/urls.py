@@ -24,3 +24,7 @@ urlpatterns += [
     path('autor/crear/', views.CrearAutor.as_view(), name='crearautorini'),
     path('autor/<int:pk>/actualizar/', views.ActualizarAutor.as_view(), name='actualizarEsteAutor'), path('autor/<int:pk>/borrar/', views.BorrarAutor.as_view(), name='borrar-autor'),]
 # Debemos usar pk como el nombre de nuestro valor de clave principal (primary key) capturado, ya que este es el nombre del parámetro esperado por las clases de vista de ediciones genéricas implementadas para ello.
+
+urlpatterns += [
+    path('libro/crear/', views.CrearLibro.as_view(), name='crearlibro'),
+    path('libro/<int:pk>/actualizar/', views.ActualizarLibro.as_view(), name='actualizarLibro'), path('libro/<int:pk>/borrar/', views.BorrarLibro.as_view(), name='borrarlibro'),]
