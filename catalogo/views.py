@@ -127,7 +127,7 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 """
-Las vistas "create" y "update" utilizan la misma plantilla de forma predeterminada, que se nombrará después de su model: model_name_form.html. Lo más que puedes cambiar este nombre predeterminado por django, es el sufijo a algo diferente a _form usando el campo template_name_suffix en tu vista, ejemplo: template_name_suffix = '_other_suffix'.
+Las vistas "create" y "update" utilizan la misma plantilla de forma predeterminada, que se nombrará después de su model: model_name_form.html. Lo más que puedes cambiar este nombre predeterminado por django, es el sufijo a algo diferente a _form usando el campo template_name_suffix en tu vista, ejemplo: template_name_suffix = '_other_suffix'. Aquí vamos a usar el método conservador de una sóla plantilla model_name_form.html para las vistas crear/actualizar, porque usamos el suffix y nos produjo un extraño duplicado de instancias en una ocasión.
 """
 
 class CrearAutor(CreateView):
@@ -141,20 +141,16 @@ class ActualizarAutor(UpdateView):
 
 class BorrarAutor(DeleteView):
     model = Autor
+    #Obviamente no necesitamos indicar los campos.
     success_url = reverse_lazy('toditicosLosAutores')
 
 class CrearLibro(CreateView):
     model = Libro
     fields = '__all__'
-    #Usamos un nombre nuevo para la plantilla:
-    template_name_suffix = '_otroSufijoPlantillaCrearLibro'
 
 class ActualizarLibro(UpdateView):
     model = Libro
     fields = '__all__'
-    #Podemos usar el mismo nombre modificado en su sufijo de plantilla, o duplicar la plantilla en la carpeta templates y colocarle un nombre diferente:
-    #template_name_suffix = '_otroSufijoPlantillaCrearLibro'
-    template_name_suffix = '_otroSufijoPlantillaActualizarLibro'
 
 class BorrarLibro(DeleteView):
     model = Libro
