@@ -25,7 +25,9 @@ SECRET_KEY = 'c25v3b2#*u#qr1_vo!=2@($m=*hz37158m=0+fy+&p4#^fja6a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# settings.py
+
+ALLOWED_HOSTS = ['192.168.50.106', 'localhost', '127.0.0.1'] # Add other allowed hosts as needed
 
 # Application definition
 

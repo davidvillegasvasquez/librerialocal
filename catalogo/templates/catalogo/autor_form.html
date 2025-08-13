@@ -1,13 +1,21 @@
 {% extends "base1.html" %}
 
 {% block content %}
-
-<form action="" method="post">
+<div class="w3-panel w3-sand">
+<div class="w3-card-4">
+  <div class="w3-container w3-brown">
+    <h2>Datos</h2>
+  </div>
+  <form class="w3-container" action="" method="post">
     {% csrf_token %}
     <table>
     {{ form.as_table }}
     </table>
-    <input type="submit" value="Crear" />
-
-</form>
+    <div class="w3-panel">
+    {% if request.path == "/catalogo/autor/crear/" %} <input type="submit" class="w3-button w3-border w3-black"  value="Crear"> {% else %} <input type="submit" class="w3-button w3-border w3-black"  value="Actualizar">{% endif %}
+    </div>
+   </form>
+</div>
+<p>La URL actual es: {{ request.path }}</p>
+</div>
 {% endblock %}

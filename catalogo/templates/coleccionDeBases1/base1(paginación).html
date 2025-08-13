@@ -7,10 +7,9 @@
 <link rel="icon" type="image/svg" href="{% static '/images/djangoIco.svg' %}">
 <!-- Link para css: -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-<script src="https://www.w3schools.com/lib/w3.js"></script>
 
-<body class="w3-container">
-  <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:23%">
+<body>
+  <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
       {% block barraLateral %}
       <h3 class="w3-bar-item">Menu</h3>
       <a href="{% url 'vistaHome' %}" class="w3-bar-item w3-button">Home</a>
@@ -33,43 +32,39 @@
           {% else %}
               <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button">Iniciar sesión</a>
        {% endif %}   
-        <!-- Fin del bloque barra lateral: -->  
+          
      {% endblock %}
-       <!-- Pegamos dos etiquetas contiguas con flexboxs: -->
-       <div class="w3-container">
-         <div class="w3-flex" style="gap:8px">
-           <div class="w3-padding w3-green"><h3>1</h3></div>
-
-           <div class="w3-card-4" style="width:50%;">
-            <header class="w3-container w3-blue">
-              <h4>Mierda</h4>
-            </header>
-           
-            <div class="w3-container">
-              <p>Libros de mierda que lee Juan.</p>
-            </div>
-
-            <footer class="w3-container w3-blue">
-              <h5>Jodase!</h5>
-            </footer>
-         </div>  
-       </div>
-       </div>
   </div>
 
-<!-- Bloque de contenido principal: -->
-
+<!-- Bloque de contenido para el menú: -->
   <div style="margin-left:25%">
-      <div class="w3-container w3-teal">
-      <h1>Librería Juan Diego</h1>
+  <div class="w3-container w3-teal">
+  <h1>Librería Municipal Pio Tamayo</h1>
+  </div>
+
+<!-- Bloque para sobreescribir en la plantilla heredera o hija -->
+  {% block content %}{% endblock %}
+
+<!-- Comienzo bloque de implementación de la paginación: -->
+  {% block pagination %}
+  {% if is_paginated %}
+      <div class="pagination">
+          <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button">anterior</a>
+              {% endif %}
+              <span class="page-current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+              {% if page_obj.has_next %}
+                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button">siguiente</a>
+              {% endif %}
+          </span>  
+  {% endif %}
+  <!-- Fin del bloque de la implementación de la paginación -->
       </div>
-
-      <!-- Bloque para sobreescribir en la plantilla heredera o hija -->
-      {% block content %}{% endblock %}
-
-      <!-- Comienzo bloque de implementación de la paginación: -->
-      
-      <!-- Fin división contenido principal -->
+{% endblock %}
+  <!-- Fin del bloque de la implementación "margin-left:25%" -->
   </div>
 
 </body>
