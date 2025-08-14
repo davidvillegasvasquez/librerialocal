@@ -130,3 +130,5 @@ SESSION_SAVE_EVERY_REQUEST = False
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DATE_INPUT_FORMATS = ['%d/%m/%Y', '%Y-%m-%d']

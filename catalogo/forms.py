@@ -1,4 +1,4 @@
-#from django import forms
+from django import forms
 from django.forms import ModelForm
 from .models import LibroInstancia
 
@@ -33,3 +33,5 @@ class ModeloFormRenovDeLibros(ModelForm):
         fields = ['debidoderegresar',]
         labels = { 'debidoderegresar': _('Fecha de renovación'), }
         help_texts = { 'debidoderegresar': _('Introduzca una fecha entre ahora y 4 semanas arriba (lo normal son 3).'), }
+        #Para hacer un widget de introducción de fecha tipo calendario sólo de selección, usamos forms.DateInput con los atributos type en date y onkeydown en return false:
+        widgets = {'debidoderegresar': forms.DateInput(attrs={'type': 'date', 'onkeydown': 'return false', 'placeholder': 'YYYY-MM-DD'}),}

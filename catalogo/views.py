@@ -120,6 +120,7 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
     # If this is a GET (or any other method) create the default form.
     else:
         fechaDeRenovacionPropuesta = datetime.date.today() + datetime.timedelta(weeks=3)
+
         formulario = ModeloFormRenovDeLibros(initial={'debidoderegresar': fechaDeRenovacionPropuesta}) #Ojo: los nombres de variables de contexto deben coincidir con sus respectivos nombres de campo en la clase formulario creada, o no se visualizarán en la plantilla.
 
     return render(solicitud, 'catalogo/formularioRenovacion.html', {'formulario': formulario, 'instanciaDeLibro':libroInstancia})
