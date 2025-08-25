@@ -55,7 +55,7 @@ ROOT_URLCONF = 'librerialocal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,6 +128,9 @@ SESSION_SAVE_EVERY_REQUEST = False
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+# settings.py
+LOGOUT_REDIRECT_URL = 'login'  # or any other appropriate URL
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

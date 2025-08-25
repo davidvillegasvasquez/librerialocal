@@ -45,7 +45,7 @@ class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
     template_name = 'catalogo/todosLosLibros.html' #Atributo opcional. En caso de usar solamente una clase, el nombre por defecto de su plantilla única será:
 #nombreDelModeloEnMinuscula_list.html (obligatorio el complemento _list), si no especifíco su atributo template_name. Esto es importante si voy a usar varias vistas de clase con un mismo modelo.
 
-    paginate_by = 2 #Paginación en grupo de dos objetos libro.
+    #paginate_by = 2 #Paginación en grupo de dos objetos libro.
     
 class LibroVistaListaConBarbara(generic.ListView):
     model = Libro
@@ -59,6 +59,7 @@ class VistaDetalleLibro(generic.DetailView):
 
 class VistaListaGenAutores(generic.ListView):
     model = Autor
+    #Si usamos listas o tablas no podemos paginar:
     #paginate_by = 2
 
 class VistaDetalladaGenAutor(generic.DetailView):
@@ -127,33 +128,52 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
 """
 Las vistas "create" y "update" utilizan la misma plantilla de forma predeterminada, que se nombrará después de su model: model_name_form.html. Lo más que puedes cambiar este nombre predeterminado por django, es el sufijo a algo diferente a _form usando el campo template_name_suffix en tu vista, ejemplo: template_name_suffix = '_other_suffix'. Aquí vamos a usar el método conservador de una sóla plantilla model_name_form.html para las vistas crear/actualizar, porque usamos el suffix y nos produjo un extraño duplicado de instancias en una ocasión.
 """
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 
+#Los dos decoradores @method_decorator para borrar caché de navegación y requerido de logeo, son inprescindibles para que un usuario no pueda acceder a los formularios post luego de darse de baja en su sesión.
+@method_decorator(login_required, name='dispatch')
+@method_decorator(never_cache, name='dispatch')
 class CrearAutor(CreateView):
     model = Autor
     fields = '__all__'
     initial={'muerte':'05/01/2018',}
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(never_cache, name='dispatch')
 class ActualizarAutor(UpdateView):
     model = Autor
     fields = ['nombre','apellido','nacimiento','muerte']
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(never_cache, name='dispatch')
 class BorrarAutor(DeleteView):
     model = Autor
     #Obviamente no necesitamos indicar los campos.
     success_url = reverse_lazy('toditicosLosAutores')
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(never_cache, name='dispatch')
 class CrearLibro(CreateView):
     model = Libro
     fields = '__all__'
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(never_cache, name='dispatch')
 class ActualizarLibro(UpdateView):
     model = Libro
     fields = '__all__'
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(never_cache, name='dispatch')
 class BorrarLibro(DeleteView):
     model = Libro
     success_url = reverse_lazy('todosLoslibros')
+
 

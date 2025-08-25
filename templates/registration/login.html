@@ -15,8 +15,21 @@
     {% endif %}
   {% endif %}
 
-  <form method="post" action="{% url 'login' %}">
+<div class="w3-panel w3-sand w3-tiny" style="width:50%;">
+<div class="w3-card-4">
+  <div class="w3-panel w3-brown">
+    <h2>Datos</h2>
+  </div>
+
+  <form class="w3-container" method="post" action="{% url 'login' %}">
     {% csrf_token %}
+
+    <label class="w3-text-blue">Usuario</label>
+    <span class="w3-input w3-border"> {{ form.username }} </span>
+
+    <label class="w3-text-blue">Contraseña</label>
+    <span class="w3-input w3-border"> {{ form.password }} </span>
+<!--
     <table>
       <tr>
         <td>{{ form.username.label_tag }}</td>
@@ -26,11 +39,14 @@
         <td>{{ form.password.label_tag }}</td>
         <td>{{ form.password }}</td>
       </tr>
-    </table>
-    <input type="submit" value="login">
-    <input type="hidden" name="next" value=""><!-- Con value={{next}} me deja dónde había quedado, que era LibrosEnManosDelUsuario/<str:username> pero con el usuario anterior, que no se como actualizar. De hecho en la plantilla logout queda el url indicando el usuario anterior. Averiguar cómo actualizar dicho url en ese paso.-->
+    </table>  -->
+    <div class="w3-panel">
+    <input class="w3-button w3-border w3-black" type="submit" value="login">
+    <input type="hidden" name="next" value="{{ next }}">
+    </div>
   </form>
-
+</div>
+</div>
   {# Asume que configura la vista de restablecimiento de contraseña en su URLconf #}
   <p><a href="{% url 'password_reset' %}">¿Olvidó su contraseña?</a></p>
 
