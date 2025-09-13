@@ -28,6 +28,6 @@ urlpatterns = [
 
 #Add Django site authentication urls (for login, logout, password management)
 urlpatterns += [
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('cuentas/', include('django.contrib.auth.urls')),
 ]
 #El nombre url accounts no puede ser arbitrario, porque django en sus vistas genéricas utiliza este nombre en su implementación.

@@ -3,10 +3,10 @@
 {% block content %}
 
   {% if form.errors %}
-    <div class="w3-panel w3-red w3-border">
-      <h3>Uff! hubo un error:</h3>
-      <p>Su nombre de usuario y contraseña no coinciden!. Intente de nuevo.</p>
-</div>
+    <div class="w3-panel w3-red">
+    <h3>Error!</h3>
+    <p>Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
+    </div>
   {% endif %}
 
   {% if next %}
@@ -14,7 +14,7 @@
       <p>Su cuenta no tiene acceso a esta página. Para continuar,
       inicie sesión con una cuenta que tenga acceso.</p>
     {% else %}
-      <p>Inicie sesión para ver libros sacados por el usuario.</p>
+      <p>Inicie sesión para poder ejecutar acciones.</p>
     {% endif %}
   {% endif %}
 
@@ -26,17 +26,12 @@
 
   <form class="w3-container" method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    <p>
-    <label ​class="w3-text-brown"><b>Usuario</b></label>
-    <input class="w3-input w3-border w3-sand" type="text" name="username" required>
-    </p>
-    <!-- <span class="w3-input"> {{ form.username }} </span> -->
-    </p>
-    <p>
-    <label ​class="w3-text-brown"><b>Contraseña</b></label>
-    <input class="w3-input w3-border w3-sand" type="password" name="password" required>
-   <!-- <span class="w3-input"> {{ form.password }} </span> -->
-    <p>
+
+    <label class="w3-text-blue">Usuario</label>
+    <span class="w3-input w3-border"> {{ form.username }} </span>
+
+    <label class="w3-text-blue">Contraseña</label>
+    <span class="w3-input w3-border"> {{ form.password }} </span>
 <!--
     <table>
       <tr>
@@ -49,9 +44,8 @@
       </tr>
     </table>  -->
     <div class="w3-panel">
-    <button type="submit" class="w3-button w3-green w3-margin-top">Acceder</button>
-    <!-- <input class="w3-button w3-border w3-black" type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}"> -->
+    <input class="w3-button w3-border w3-black" type="submit" value="login">
+    <input type="hidden" name="next" value="{{ next }}">
     </div>
   </form>
 </div>
