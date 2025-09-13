@@ -60,7 +60,7 @@ class VistaDetalleLibro(generic.DetailView):
 class VistaListaGenAutores(generic.ListView):
     model = Autor
     #Si usamos listas o tablas no podemos paginar:
-    #paginate_by = 2
+    paginate_by = 2
 
 class VistaDetalladaGenAutor(generic.DetailView):
     model = Autor 

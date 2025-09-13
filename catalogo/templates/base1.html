@@ -7,10 +7,9 @@
 <link rel="icon" type="image/svg" href="{% static '/images/djangoIco.svg' %}">
 <!-- Link para css: -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-<script src="https://www.w3schools.com/lib/w3.js"></script>
 
-<body class="w3-container">
-  <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:23%">
+<body>
+  <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
       {% block barraLateral %}
       <h3 class="w3-bar-item">Menu</h3>
       <a href="{% url 'vistaHome' %}" class="w3-bar-item w3-button">Home</a>
@@ -22,57 +21,51 @@
             <span class="w3-bar-item">Usuario: {{ user.get_username }} {% if user.groups.all.0.name == "bibliotecarios" %} es bibliotecario {% if user.is_staff %} y perteneca al staff (puede eliminar libros y autores){% endif %}{% else %} y es un usuario normalito{% endif %}</span>
             
       <a href="{% url 'misLibrosalquilados' user.get_username %}" class="w3-bar-item w3-button">Libros en manos de {{ user.get_username }} </a>
-      <a href="{% url 'logout' %}?next = {{ request.path }}" class="w3-bar-item w3-button">Cerrar sesión</a>      
+      <a href="{% url 'logout'%}?next={{request.path}}" class="w3-bar-item w3-button">Cerrar sesión</a>      
             {% if perms.catalogo.puedeMarcarRetornado %}
               <hr>
               <span class="w3-bar-item">Bibliotecario</span>
               <a href="{% url 'librosAlquiladosActualmente' %}" class="w3-bar-item w3-button">Todos los libros prestados actualmente por la biblioteca</a>
               <a href="{% url 'crearautorini' %}" class="w3-bar-item w3-button">Crear Autor</a>
               <a href="{% url 'crearlibro' %}" class="w3-bar-item w3-button">Crear Libro</a>
-    
               {% endif %}
           {% else %}
-    
-              <a href="{% url 'login' %}?next = {{ request.path }}" class="w3-bar-item w3-button">Iniciar sesión</a>
+              <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button">Iniciar sesión</a>
        {% endif %}   
-        <!-- Fin del bloque barra lateral: -->  
+          
      {% endblock %}
-       <!-- Pegamos dos etiquetas contiguas con flexboxs: -->
-       <div class="w3-container">
-         <div class="w3-flex" style="gap:8px">
-           <div class="w3-padding w3-green"><h3>1</h3></div>
-
-           <div class="w3-card-4">
-            <header class="w3-container w3-blue">
-              <h5>Encabezado</h5>
-            </header>
-           
-            <div class="w3-container">
-              <p>Esta es una etiqueta con sombra 4.</p>
-            </div>
-
-            <footer class="w3-container w3-blue">
-              <h5>Pie</h5>
-            </footer>
-         </div>  
-       </div>
-       </div>
   </div>
 
-<!-- Bloque de contenido principal: -->
-
+<!-- Bloque de contenido para el menú: -->
   <div style="margin-left:25%">
-      <div class="w3-container w3-teal">
-      <h1>Librería Juan Diego</h1>
-      </div>
-
-      <!-- Bloque para sobreescribir en la plantilla heredera o hija -->
-      {% block content %}{% endblock %}
-
-      <!-- Comienzo bloque de implementación de la paginación: -->
-      
-      <!-- Fin división contenido principal -->
+  <div class="w3-container w3-teal">
+  <h1>Librería Municipal Pio Tamayo</h1>
   </div>
-    
+
+<!-- Bloque para sobreescribir en la plantilla heredera o hija -->
+  {% block content %}{% endblock %}
+
+<!-- Comienzo bloque de implementación de la paginación: -->
+  {% block pagination %}
+  {% if is_paginated %}
+      <div class="pagination">
+          <span class="page-links">
+              {% if page_obj.has_previous %}
+                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button">anterior</a>
+              {% endif %}
+              <span class="page-current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+              {% if page_obj.has_next %}
+                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button">siguiente</a>
+              {% endif %}
+          </span>  
+  {% endif %}
+  <!-- Fin del bloque de la implementación de la paginación -->
+      </div>
+{% endblock %}
+  <!-- Fin del bloque de la implementación "margin-left:25%" -->
+  </div>
+
 </body>
 </html>
