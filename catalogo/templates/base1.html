@@ -37,7 +37,7 @@
   </div>
 
 <!-- Bloque de contenido para el menú: -->
-  <div style="margin-left:25%">
+<div style="margin-left:25%">
   <div class="w3-container w3-teal">
   <h1>Librería Municipal Pio Tamayo</h1>
   </div>
@@ -48,23 +48,36 @@
 <!-- Comienzo bloque de implementación de la paginación: -->
   {% block pagination %}
   {% if is_paginated %}
-      <div class="pagination">
-          <span class="page-links">
-              {% if page_obj.has_previous %}
-                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button">anterior</a>
-              {% endif %}
-              <span class="page-current">
-                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-              </span>
-              {% if page_obj.has_next %}
-                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button">siguiente</a>
-              {% endif %}
-          </span>  
+    <div class="w3-panel w3-center">
+      <div class="w3-center w3-bar w3-border pagination w3-center" style="width:43%">
+          <!-- <div class="page-links w3-bar-item"> -->
+               
+             <div class="w3-bar-item">
+                  {% if page_obj.has_previous %}
+                  <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" class="w3-button">&#10094;</a>
+                  {% else %}
+                  <span class="w3-button">&#10094;</span>
+                  {% endif %}
+             </div>
+              
+              <div class="w3-bar-item">
+               <button class="w3-button" style="pointer-events: none">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+               </button>
+              </div>
+              <div class="w3-bar-item">
+                  {% if page_obj.has_next %}
+                  <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class="w3-button">&#10095;</a>
+                  {% else %}
+                  <span class="w3-button">&#10095;</span>
+                  {% endif %}
+              </div>  
+       </div>
+    </div>
+    <!-- Fin del bloque de la implementación de la paginación -->
   {% endif %}
-  <!-- Fin del bloque de la implementación de la paginación -->
-      </div>
 {% endblock %}
-  <!-- Fin del bloque de la implementación "margin-left:25%" -->
+
+   </div>
   </div>
 
 </body>
