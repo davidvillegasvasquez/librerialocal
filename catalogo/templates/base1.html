@@ -31,6 +31,7 @@
               {% endif %}
           {% else %}
               <a href="{% url 'login'%}?next={{request.path}}" class="w3-bar-item w3-button">Iniciar sesión</a>
+       {% block formLogeo %}{% endblock %}
        {% endif %}   
           
      {% endblock %}
