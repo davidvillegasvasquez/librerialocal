@@ -25,15 +25,12 @@ class Libro(models.Model):
     """
     titulo = models.CharField(max_length=200)
     autor = models.ForeignKey('Autor', on_delete=models.SET_NULL, null=True)
-    # ForeignKey, ya que un libro tiene un solo autor, pero el mismo autor puede haber escrito muchos libros.
-    # 'Autor' es un string, en vez de un objeto, porque la clase Author aún no ha sido declarada.
     descripcion = models.TextField(max_length=1000, help_text="Ingrese una breve descripción del libro")
     isbn = models.CharField('ISBN',max_length=13, help_text='13 Caracteres <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genero = models.ManyToManyField(Genero, help_text="Seleccione un genero para este libro")
-    # ManyToManyField, porque un género puede contener muchos libros y un libro puede cubrir varios géneros.
-    # La clase Genre ya ha sido definida, entonces podemos especificar el objeto arriba.
+    
     lenguaje = models.ForeignKey('Lenguaje', on_delete=models.SET_NULL, null=True)
-    # ForeignKey, ya que un libro está escrito en un solo lenguaje, pero el mismo lenguaje puede haberse utilizado para escribir muchos otros libros.
+
     def __str__(self):
         """
         String que representa al objeto Book
@@ -44,7 +41,7 @@ class Libro(models.Model):
         """
         Devuelve el URL a una instancia particular de Book
         """
-        return reverse('detallesDeLibro', args=[str(self.id)])#Para las vistas detalladas que requieren el id de una instancia de este modelo como parámetro en la url, el parámetro name de la función path en el mapeador urls.py debe tener este #nombre ('detallesDeLibro') de url respectivo a dicha vista detallada genérica, de lo contrario se presentará la excepción: Reverse for 'detallesDeLibro' not found. 'libroDetalles' is not a valid view function or pattern name.
+        return reverse('detallesDeLibro', args=[str(self.id)])
     class Meta:
         ordering = ['titulo', 'autor']
 
@@ -54,7 +51,7 @@ class Libro(models.Model):
 
     mostrar_genero.short_description = 'Genero'
 
-import uuid # Requerida para las instancias de libros únicos
+import uuid 
 from django.core.validators import MaxValueValidator, MinValueValidator 
 
 class LibroInstancia(models.Model):

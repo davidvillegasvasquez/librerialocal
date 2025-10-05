@@ -97,7 +97,7 @@ from django.http import HttpResponseRedirect
 import datetime
 from catalogo.forms import ModeloFormRenovDeLibros
 
-#@login_required #Trabaja igual sin este decorador. Averiguar por qué?
+@login_required #Trabaja igual sin este decorador. Averiguar por qué?
 @permission_required('catalogo.puedeMarcarRetornado')
 def renovacionLibroPorLibrero(solicitud, claveprimaria):
     """
@@ -116,7 +116,7 @@ def renovacionLibroPorLibrero(solicitud, claveprimaria):
             libroInstancia.debidoderegresar= formulario.cleaned_data['debidoderegresar']
             libroInstancia.save()
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('librosAlquiladosActualmente') )
+            return HttpResponseRedirect(reverse('librosAlquiladosActualmente'))
 
     # If this is a GET (or any other method) create the default form.
     else:
