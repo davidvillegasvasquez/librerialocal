@@ -15,6 +15,7 @@
       <h3 class="w3-bar-item">Menu</h3>
       <a href="{% url 'vistaHome' %}" class="w3-bar-item w3-button">Home</a>
       <a href="{% url 'todosLoslibros' %}" class="w3-bar-item w3-button">Todos los libros</a>
+      <a href="{% url 'librosConBarbara' %}" class="w3-bar-item w3-button">Libros con Barbara</a>
       <a href="{% url 'toditicosLosAutores' %}" class="w3-bar-item w3-button">Todos los autores</a>
       <a href="/admin" class="w3-bar-item w3-button">Ir a admin</a>
       <a href="{% url 'resetearVisitas' %}" class="w3-bar-item w3-button">Reestablecer contador</a>
@@ -35,8 +36,7 @@
     
               <a href="{% url 'login' %}?next = {{ request.path }}" class="w3-bar-item w3-button">Iniciar sesión</a>
        {% endif %}   
-        <!-- Fin del bloque barra lateral: -->  
-     {% endblock %}
+        
        <!-- Pegamos dos etiquetas contiguas con flexboxs: -->
        <div class="w3-container">
          <div class="w3-flex" style="gap:8px">
@@ -57,13 +57,15 @@
          </div>  
        </div>
        </div>
+      <!-- Fin del bloque barra lateral: -->  
+      {% endblock %}
   </div>
 
 <!-- Bloque de contenido principal: -->
 
   <div style="margin-left:25%">
       <div class="w3-container w3-teal">
-      <h1>Librería Local Main</h1>
+      <h1>Librería Local No Paginada</h1>
       </div>
 
       <!-- Bloque para sobreescribir en la plantilla heredera o hija -->

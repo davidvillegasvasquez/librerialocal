@@ -37,9 +37,6 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
-    #login_url = '/accounts/login' #accounts es mandatorio, no puede ser un nombre arbitrario para esta url, porque las vistas genericas buscan las cuentas con este identificador predefinido en la implementación de django.
-    #redirect_field_name = 'catalogo/' #Si descomento, me dirige a la página inicial (catalogo/), en vez de seguir su camino natural que era el link "todos
-#los libros", es decir, hacia su plantilla, que en este caso le pusimos nombre: template_name = 'catalogo/todosLosLibros.html', que ya estará desbloqueada para este caso.
     model = Libro
     context_object_name = 'mi_listaDeLibros'#Atributo opcional: si no lo uso, la variable de contexto del objeto en la plantilla para esta vista, será automáticamente libro_list, es decir, nombreDelModeloEnMinuscula_list.
     template_name = 'catalogo/todosLosLibros.html' #Atributo opcional. En caso de usar solamente una clase, el nombre por defecto de su plantilla única será:
@@ -52,6 +49,13 @@ class LibroVistaListaConBarbara(generic.ListView):
     context_object_name = 'listaDeLibrosConBarbara'
     template_name = 'catalogo/librosConBarbara.html'
     queryset = Libro.objects.filter(titulo__icontains='barbara')
+
+    #Podemos poner más variables de contexto, sobre escribiendo el método get_context_data:
+    def get_context_data(self, **kwargs):
+        # Llame primero a la implementación base para obtener un contexto.
+        context = super(LibroVistaListaConBarbara, self).get_context_data(**kwargs)
+        context['otraVariableDeContexto'] = 'Sólo una cadena. Puede ser cualquier otro tipo de valor.'
+        return context
 
 class VistaDetalleLibro(generic.DetailView):
     model = Libro #Como las listas genericas, los demás atributos son opcionales. Aquí usaremos los atributos por defectos que nos proporciona django(automáticos, implicitos).
