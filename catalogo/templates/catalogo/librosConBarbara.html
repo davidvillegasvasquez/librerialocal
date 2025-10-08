@@ -13,12 +13,15 @@
       <li>
         <!-- Usamos href="{% url 'detallesDeLibro' objeto.id %}" en vez de href="{{ objeto.get_absolute_url }}" con fines didáctico: sabemos que es preferible usar el método get_absolute_url que implementamos en el código de este modelo para este tipo de url dinámicas que tienen parámetros. -->
         
-        <a href="{% url 'detallesDeLibro' objeto.id %}">{{ objeto.titulo }}</a> ({{objeto.autor}}) <br> Retorno del método objeto.get_absolute_url o la función url 'detallesDeLibro' objeto.id: {{objeto.get_absolute_url}}<br>La variable de contexto adicional, 'otraVariableDeContexto': {{otraVariableDeContexto}}
+        <a href="{% url 'detallesDeLibro' objeto.id %}">{{ objeto.titulo }}</a> ({{objeto.autor}}) <br> Retorno del método objeto.get_absolute_url o la función url 'detallesDeLibro' objeto.id: {{objeto.get_absolute_url}}
       </li>
         
       {% endfor %}
 
-       {% comment %} Cuando queremos generar la url dinamicamente de un enlace a una página, la única opción es la etiqueta de función {% url 'nombreDeLaUrlEnFunciónPath' %}. Observación: no puedo comentar este texto con los marcados para comentar html, <!-- -->, porque me lee la etiqueta de función url y me envia el error "no se encuentra el reverso para 'nombreDeLaUrlEnFunciónPath'. Averiguar por qué pasa esto.{% endcomment %}
+      <br>La variable de contexto adicional para esta vista genérica, 'una2daVariableDeContexto': {{una2daVariableDeContexto}}
+      <br>Y la variable de contexto, 'variableDeContextoN': {{variableDeContextoN}}
+
+       {% comment %} Cuando queremos generar la url dinamicamente de un enlace a una página, la única opción es la etiqueta de función {% url 'nombreDeLaUrlEnFunciónPath' %}. Observación: no puedo comentar este texto con las etiquetas html de comentar, <!-- -->, porque me lee la etiqueta de función url y me envia el error "no se encuentra el reverso para 'nombreDeLaUrlEnFunciónPath'. Averiguar por qué pasa esto.{% endcomment %}
     </ul>
     
     {% else %}

@@ -43,18 +43,28 @@ class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
 #nombreDelModeloEnMinuscula_list.html (obligatorio el complemento _list), si no especifíco su atributo template_name. Esto es importante si voy a usar varias vistas de clase con un mismo modelo.
 
     #paginate_by = 2 #Paginación en grupo de dos objetos libro.
-    
+
+#Literal o constante, que simula un valor importado al módulo:
+constante = 25
 class LibroVistaListaConBarbara(generic.ListView):
     model = Libro
     context_object_name = 'listaDeLibrosConBarbara'
     template_name = 'catalogo/librosConBarbara.html'
+    #Está claro que no haremos vistas genéricas para conseguir este tipo de queryset, si podemos hacer un filtrado a nivel de frontend con css y js, lo cual reduce la cantidad de computo en el backend, reduciendo el costo de alquiler en nuestro servidor.
     queryset = Libro.objects.filter(titulo__icontains='barbara')
-
-    #Podemos poner más variables de contexto, sobre escribiendo el método get_context_data:
+    suma = 0
+    #Un atributo método sobre un atributo del modelo (suma), que usaremos para la variable de contexto, 'variableDeContextoN': 
+    def operSuma(self, num):
+        self.suma = num + constante
+        return self.suma
+    
+    #Podemos poner más variables de contexto en una vista genérica, sobreescribiendo el método get_context_data. Este es un ejemplo de como se sobreescriben los métodos implícitos (heredados de generic.ListView) de esta clase hecha por nosotros:
     def get_context_data(self, **kwargs):
         # Llame primero a la implementación base para obtener un contexto.
         context = super(LibroVistaListaConBarbara, self).get_context_data(**kwargs)
-        context['otraVariableDeContexto'] = 'Sólo una cadena. Puede ser cualquier otro tipo de valor.'
+        #Agregamos al diccionario context:
+        context['una2daVariableDeContexto'] = 'Sólo una cadena. Puede ser cualquier otro tipo de valor.'
+        context['variableDeContextoN'] = self.operSuma(1000)
         return context
 
 class VistaDetalleLibro(generic.DetailView):
