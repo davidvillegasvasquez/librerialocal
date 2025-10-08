@@ -44,8 +44,13 @@ class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
 
     #paginate_by = 2 #Paginación en grupo de dos objetos libro.
 
-#Literal o constante, que simula un valor importado al módulo:
+#Constante declarada para uso global en este módulo:
 constante = 25
+
+#Importamos una constante desde el módulo constantes.py que creamos para uso didáctico, que se encuentra en el directorio, ArchivosParaImportar, en el paquete (__init__.py) que creó django en la entrada del proyecto, el directorio librerialocal a nivel de manage.py, y const2 y const3:
+from librerialocal.ArchivosParaImportar.constantes import pi 
+from static.images.ej import const2
+from constExt import const3
 class LibroVistaListaConBarbara(generic.ListView):
     model = Libro
     context_object_name = 'listaDeLibrosConBarbara'
@@ -55,7 +60,7 @@ class LibroVistaListaConBarbara(generic.ListView):
     suma = 0
     #Un atributo método sobre un atributo del modelo (suma), que usaremos para la variable de contexto, 'variableDeContextoN': 
     def operSuma(self, num):
-        self.suma = num + constante
+        self.suma = num + constante + pi + const2 + const3
         return self.suma
     
     #Podemos poner más variables de contexto en una vista genérica, sobreescribiendo el método get_context_data. Este es un ejemplo de como se sobreescriben los métodos implícitos (heredados de generic.ListView) de esta clase hecha por nosotros:
@@ -64,7 +69,7 @@ class LibroVistaListaConBarbara(generic.ListView):
         context = super(LibroVistaListaConBarbara, self).get_context_data(**kwargs)
         #Agregamos al diccionario context:
         context['una2daVariableDeContexto'] = 'Sólo una cadena. Puede ser cualquier otro tipo de valor.'
-        context['variableDeContextoN'] = self.operSuma(1000)
+        context['variableDeContextoN'] = self.operSuma(50)
         return context
 
 class VistaDetalleLibro(generic.DetailView):
@@ -190,4 +195,13 @@ class BorrarLibro(DeleteView):
     model = Libro
     success_url = reverse_lazy('todosLoslibros')
 
+#Así hacemos una vista genérica de lista con dos o más modelos. Debemos declarar el modelo principal en la vista genérica (sólo acepta uno), y el secundario en el método sobreescrito get_context_data:
+class VistaCombinadaAutorLibro(generic.ListView):
+    model = Autor
+    template_name = 'catalogo/combina_LibroAutor.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Obtener datos del modelo secundario:
+        context['listaDeLibros'] = Libro.objects.all()
+        return context

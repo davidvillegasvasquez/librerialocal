@@ -17,9 +17,9 @@
       </li>
         
       {% endfor %}
-
-      <br>La variable de contexto adicional para esta vista genérica, 'una2daVariableDeContexto': {{una2daVariableDeContexto}}
-      <br>Y la variable de contexto, 'variableDeContextoN': {{variableDeContextoN}}
+      <br>-La variable de contexto principal declarada para esta vista genérica, context_object_name = 'listaDeLibrosConBarbara': {{listaDeLibrosConBarbara}}
+      <br>-La variable de contexto adicional 'una2daVariableDeContexto': {{una2daVariableDeContexto}}
+      <br>-Y la variable de contexto, 'variableDeContextoN' (50+25+3.1415+200+500): {{variableDeContextoN}}
 
        {% comment %} Cuando queremos generar la url dinamicamente de un enlace a una página, la única opción es la etiqueta de función {% url 'nombreDeLaUrlEnFunciónPath' %}. Observación: no puedo comentar este texto con las etiquetas html de comentar, <!-- -->, porque me lee la etiqueta de función url y me envia el error "no se encuentra el reverso para 'nombreDeLaUrlEnFunciónPath'. Averiguar por qué pasa esto.{% endcomment %}
     </ul>

@@ -17,6 +17,7 @@
       <a href="{% url 'todosLoslibros' %}" class="w3-bar-item w3-button">Todos los libros</a>
       <a href="{% url 'librosConBarbara' %}" class="w3-bar-item w3-button">Libros con Barbara</a>
       <a href="{% url 'toditicosLosAutores' %}" class="w3-bar-item w3-button">Todos los autores</a>
+      <a href="{% url 'vistaLibroAutor' %}" class="w3-bar-item w3-button">Vista combinada Libro-Autor</a>
       <a href="/admin" class="w3-bar-item w3-button">Ir a admin</a>
       <a href="{% url 'resetearVisitas' %}" class="w3-bar-item w3-button">Reestablecer contador</a>
           {% if user.is_authenticated %}

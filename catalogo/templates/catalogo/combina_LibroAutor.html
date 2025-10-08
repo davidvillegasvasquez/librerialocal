@@ -1,0 +1,19 @@
+{% extends "base1.html" %}
+
+{% block content %}
+
+<h2>Listad de autores actuales:</h2>
+<ul>
+    {% for itemAutor in autor_list %}
+        <li>{{ itemAutor }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Lista de libros actuales:</h2>
+<ul>
+    {% for itemLibro in listaDeLibros %}
+        <li>{{ itemLibro }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

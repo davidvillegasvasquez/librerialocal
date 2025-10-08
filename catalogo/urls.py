@@ -24,3 +24,7 @@ urlpatterns += [
 urlpatterns += [
     path('libro/crear/', views.CrearLibro.as_view(), name='crearlibro'),
     path('libro/<int:pk>/actualizar/', views.ActualizarLibro.as_view(), name='actualizarLibro'), path('libro/<int:pk>/borrar/', views.BorrarLibro.as_view(), name='borrarlibro'),]
+
+urlpatterns += [
+    path('listacombinada-libro-autor/', views.VistaCombinadaAutorLibro.as_view(), name='vistaLibroAutor'),
+]
