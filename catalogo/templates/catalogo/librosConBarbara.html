@@ -11,7 +11,7 @@
       {% for objeto in listaDeLibrosConBarbara %}
 
       <li>
-        <!-- Usamos href="{% url 'detallesDeLibro' objeto.id %}" en vez de href="{{ objeto.get_absolute_url }}" con fines didáctico: sabemos que es preferible usar el método get_absolute_url que implementamos en el código de este modelo para este tipo de url dinámicas que tienen parámetros. -->
+        <!-- Usamos href="{% url 'detallesDeLibro' objeto.id %}" en vez de href="{{ objeto.get_absolute_url }}" para este caso, con fines didáctico: sabemos que es preferible usar el método get_absolute_url que implementamos en el código de este modelo para este tipo de url dinámicas que tienen parámetros. -->
         
         <a href="{% url 'detallesDeLibro' objeto.id %}">{{ objeto.titulo }}</a> ({{objeto.autor}}) <br> Retorno del método objeto.get_absolute_url o la función url 'detallesDeLibro' objeto.id: {{objeto.get_absolute_url}}
       </li>

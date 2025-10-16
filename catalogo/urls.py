@@ -25,6 +25,9 @@ urlpatterns += [
     path('libro/crear/', views.CrearLibro.as_view(), name='crearlibro'),
     path('libro/<int:pk>/actualizar/', views.ActualizarLibro.as_view(), name='actualizarLibro'), path('libro/<int:pk>/borrar/', views.BorrarLibro.as_view(), name='borrarlibro'),]
 
-urlpatterns += [
-    path('listacombinada-libro-autor/', views.VistaCombinadaAutorLibro.as_view(), name='vistaLibroAutor'),
-]
+#Esta vista dejó de trabajar repentinamente:
+#urlpatterns += [path('listaLibroautor/', views.VistaCombAutorLibro.as_view(), name='vistaListaLibrosAutor'),]
+
+urlpatterns += [path('ejemUsoSelectOptionsW3.css/', views.librosDelAutor, name='vistaLibrosDelAutor'),]
+
+urlpatterns += [path('librosDelAutor/<str:argumento>', views.formularioLibrosDelAutor, name='vistaLibrosDelAutorFormulario'),]

@@ -17,8 +17,11 @@
       <a href="{% url 'todosLoslibros' %}" class="w3-bar-item w3-button">Todos los libros</a>
       <a href="{% url 'librosConBarbara' %}" class="w3-bar-item w3-button">Libros con Barbara</a>
       <a href="{% url 'toditicosLosAutores' %}" class="w3-bar-item w3-button">Todos los autores</a>
-      <a href="{% url 'vistaLibroAutor' %}" class="w3-bar-item w3-button">Vista combinada Libro-Autor</a>
-      <a href="/admin" class="w3-bar-item w3-button">Ir a admin</a>
+      <a href="{% url 'vistaLibrosDelAutor' %}" class="w3-bar-item w3-button">Uso de w3.css select-option y vista basada en función para enlazar a las vistas genéricas de detalle de autor</a>
+      <a href="{% url 'vistaLibrosDelAutorFormulario' argumento=2 %}" class="w3-bar-item w3-button">Vista Autor y sus libros visualizada con formulario basado en función, en vez del método autor.libro_set.all en la plantilla</a>
+
+      <!-- Hacemos un solucionador de url a nivel de la aplicación para ir a admin, que se encuentra en la base o entrada del proyecto, con fines didácticos. Sería un disparate hacerlo en producción. Para ello usamos la etiqueta reservada, admin:index: -->
+      <a href="{% url 'admin:index' %}" class="w3-bar-item w3-button">Ir a admin</a>
       <a href="{% url 'resetearVisitas' %}" class="w3-bar-item w3-button">Reestablecer contador</a>
           {% if user.is_authenticated %}
             <span class="w3-bar-item">Usuario: {{ user.get_username }} {% if user.groups.all.0.name == "bibliotecarios" %} es bibliotecario {% if user.is_staff %} y perteneca al staff (puede eliminar libros y autores){% endif %}{% else %} y es un usuario normalito{% endif %}</span>

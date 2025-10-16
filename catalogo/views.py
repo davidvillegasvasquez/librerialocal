@@ -48,9 +48,11 @@ class LibroVistaLista(generic.ListView): # ,LoginRequiredMixin):
 constante = 25
 
 #Importamos una constante desde el módulo constantes.py que creamos para uso didáctico, que se encuentra en el directorio, ArchivosParaImportar, en el paquete (__init__.py) que creó django en la entrada del proyecto, el directorio librerialocal a nivel de manage.py, y const2 y const3:
+
 from librerialocal.ArchivosParaImportar.constantes import pi 
 from static.images.ej import const2
 from constExt import const3
+
 class LibroVistaListaConBarbara(generic.ListView):
     model = Libro
     context_object_name = 'listaDeLibrosConBarbara'
@@ -196,12 +198,50 @@ class BorrarLibro(DeleteView):
     success_url = reverse_lazy('todosLoslibros')
 
 #Así hacemos una vista genérica de lista con dos o más modelos. Debemos declarar el modelo principal en la vista genérica (sólo acepta uno), y el secundario en el método sobreescrito get_context_data:
-class VistaCombinadaAutorLibro(generic.ListView):
+"""
+class VistaCombAutorLibro(generic.ListView):
+    
+    Esta implementación dejó de funcionar misteriosamente, ahora dice: Revertir para '' no encontrado. '' no es una función de vista o nombre de patrón válido. Averiguar que sucedió.
     model = Autor
     template_name = 'catalogo/combina_LibroAutor.html'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Obtener datos del modelo secundario:
         context['listaDeLibros'] = Libro.objects.all()
         return context
+"""
+
+
+def librosDelAutor(solicitud):
+    """
+    Función para fines didácticos, que muestra el uso de elementos w3.css select y option en su plantilla asociada, para enlazar los elementos option a las vistas detallada genéricas de autor (catalogo/autor/<int:pk>).
+    """
+    try:
+        #if (pk is None): pk = 1
+        autores = Autor.objects.all()
+        autor=Autor.objects.get(pk=1)
+        #La busqueda de los registros en el modelo secundario (muchos), se hace escribiendo en el argumento del atributo filter para ese modelo, el módelo primario o lado uno de la relación muchos a uno, en minúscula, seguido con dos barrapisos, y la clave, en este caso id:
+        suslibros=Libro.objects.filter(autor__id = autor.id)
+    except Book.DoesNotExist:
+        raise Http404("El autor no exite")
+    
+    contexto = {'autor_context': autor, 'sus_libros':suslibros, 'autores_contx':autores,}
+
+    return render(solicitud,'autorYsusLibros.html',context=contexto)
+
+def formularioLibrosDelAutor(solicitud, argumento):
+    """
+    Función para fines didácticos, que muestra el uso de un formulario basado en función, para enlazar los elementos option a las vistas detallada genéricas de autor (catalogo/autor/<int:pk>).
+    """
+    try:
+        if (argumento is None): argumento = 1
+        autor=Autor.objects.get(pk=int(argumento))
+        #Lista de todos los indices de autores:
+        
+        suslibros=Libro.objects.filter(autor__id = autor.id)
+    except Libro.DoesNotExist:
+        raise Http404("El autor no exite")
+    
+    contexto = {'autor_context': autor, 'sus_libros':suslibros}
+
+    return render(solicitud,'formAutorYsusLibros.html',context=contexto)

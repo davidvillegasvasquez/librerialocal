@@ -1,0 +1,24 @@
+{% extends "base1.html" %}
+
+{% block content %}
+<br>
+<form action="" method="get">
+  <label>Autor: </label>
+  <input
+    id="miInput"
+    type="text"
+    name="argumento"
+    placeholder="Ingrese indice autor" />
+  
+  <input type="submit" value="Siguiente" />
+</form>
+
+<p>Autor: {{ autor_context }}</p>
+<p>Lista de sus libros: {{ sus_libros }}</p>
+
+<script>
+//Claro, podemos usar onchange="window.location.href = this.value" en el elmento <select>, en lugar de esta función, y es más conciso:  
+//function nombre(argumento) {document.getElementById('miInput').value = 3;}
+</script>
+
+{% endblock %}
